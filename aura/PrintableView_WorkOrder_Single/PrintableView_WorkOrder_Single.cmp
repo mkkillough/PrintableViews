@@ -1,0 +1,98 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName" controller="PrintableView_WorkOrder_SingleController">
+    <aura:attribute name="sObjectName" type="string" default="WorkOrder" />
+    <aura:attribute name="assetId" type="string"/>
+    <aura:attribute name="maintenancePlanId" type="string"/>
+    <aura:attribute name="previousWorkOrderId" type="string"/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:if isTrue="{!v.assetId}">
+        <div id="everything">
+            <div class="slds-grid slds-wrap">
+                <!--<div class="slds-size_1-of-6"/>-->
+                <!--<div class="slds-size_5-of-6">-->
+                <div class="slds-align_absolute-center">
+                    <c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" fields="PrintableView_Header_LeftColumn" mode="readonly" fieldSource="Field Set"/>
+                </div>
+            </div>
+            <!---->
+            
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_3-of-7">
+                <!--<div class="slds-size_1-of-2">-->
+                    
+                    <!--<b>Asset Fields</b>-->
+                    <c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.assetId}" sObjectName="Asset" fields="PrintableView_Header_LeftColumn" mode="readonly" fieldSource="Field Set"/>
+                </div>
+                <div class="slds-size_1-of-7"></div>
+                <div class="slds-size_3-of-7 slds-text-align_right">
+                <!--<div class="slds-size_1-of-2 slds-text-align_right">-->
+                    <!--<b>Maintenance Plan Fields</b>-->
+                    <!--<c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" fields="PrintableView_Header_RightColumn1" mode="readonly" fieldSource="Field Set"/>-->
+                    <c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.assetId}" sObjectName="Asset" fields="PrintableView_Header_RightColumn" mode="readonly" fieldSource="Field Set"/>
+                    <c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.maintenancePlanId}" sObjectName="MaintenancePlan" fields="PrintableView_Header_RightColumn" mode="readonly" fieldSource="Field Set"/>
+                    <c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" fields="PrintableView_Header_RightColumn" mode="readonly" fieldSource="Field Set"/>
+                    
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap">
+                <!--<div class="slds-size_1-of-6"/>-->
+                <!--<div class="slds-size_5-of-6">-->
+                <aura:if isTrue="{!v.previousWorkOrderId}">
+                    <c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.previousWorkOrderId}" sObjectName="{!v.sObjectName}" fields="PrintableView_Header_LeftColumn1" mode="readonly" fieldSource="Field Set"/>
+                    <aura:set attribute="else">
+                    <c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" fields="PrintableView_Header_LeftColumn1" mode="readonly" fieldSource="Field Set"/>    
+                    </aura:set>
+                </aura:if>
+                    
+                <!--</div>-->
+            </div>
+            <!--<div class="slds-align_absolute-center">-->
+            
+            <br/>
+            <div>
+                <c:RMA_RelatedList listLabel="" objectName="ProductRequired" lookupField="ParentRecordId" displayFields="Product_Name__c,Equipment_Type__c,Size__c,QuantityRequired,Quantity_Consumed__c" additionalCriteria="" orderBy="Equipment_Type__c,Product_Name__c" sortOrder="ASC" limit="999" sObjectName="{! v.sObjectName }" recordId="{! v.recordId }" allowAdd="false" iconName="" printableView="true"/>
+            </div>
+            <br/>
+            <div>
+                <c:RMA_RelatedList listLabel="" objectName="WorkOrderLineItem" lookupField="WorkOrderId" displayFields="LineItemNumber,AssetId,Description,Completed__c" additionalCriteria="" orderBy="LineItemNumber" sortOrder="ASC" limit="999" sObjectName="{! v.sObjectName }" recordId="{! v.recordId }" allowAdd="false" iconName="" printableView="true"/>
+            </div>
+            <br/>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-form-element slds-size_1-of-2">
+                  <label class="slds-form-element__label" for="text-input-id-1" id="fixed-text-label"></label>
+                  <div class="slds-form-element__control slds-input-has-fixed-addon">
+                    <span class="slds-form-element__addon" id="fixed-text-addon-pre"><b>Technician Signature:</b></span>
+                    <ui:outputText value=" " class="slds-border_bottom slds-form-element__static"/>
+                    <!--<input type="text" aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" id="text-input-id-1" class="slds-input" placeholder="" />-->
+                    <span class="slds-form-element__addon" id="fixed-text-addon-post"></span>
+                  </div>
+                </div>
+                <div class="slds-form-element slds-size_1-of-2">
+                  <label class="slds-form-element__label" for="text-input-id-1" id="fixed-text-label"></label>
+                  <div class="slds-form-element__control slds-input-has-fixed-addon">
+                    <span class="slds-form-element__addon" id="fixed-text-addon-pre"><b>Completed Date:</b></span>
+                    <ui:outputText value=" " class="slds-border_bottom slds-form-element__static"/>
+                    <!--<input type="text" aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" id="text-input-id-1" class="slds-input" placeholder="" />-->
+                    <span class="slds-form-element__addon" id="fixed-text-addon-post"></span>
+                  </div>
+                </div>
+            </div>
+            <br/>
+            <!--<c:RMA_Fields columnsByFieldSetMode="true" printableView="true" recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" fields="PrintableView_Header_RightColumn1" mode="edit" fieldSource="Field Set"/>-->
+            <div class="slds-form-element">
+              <label class="slds-form-element__label" for="text-input-id-1" id="fixed-text-label"></label>
+              <div class="slds-form-element__control slds-input-has-fixed-addon">
+                <span class="slds-form-element__addon" id="fixed-text-addon-pre"><b>Technician Notes:</b></span>
+                <ui:outputText value=" " class="slds-border_bottom slds-form-element__static"/>
+                <!--<input type="text" aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" id="text-input-id-1" class="slds-input" placeholder="" />-->
+                <span class="slds-form-element__addon" id="fixed-text-addon-post"></span>
+              </div>
+            </div>
+            
+            
+            
+        </div>
+    </aura:if>
+    
+</aura:component>

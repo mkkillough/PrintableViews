@@ -1,0 +1,97 @@
+<apex:page standardController="WorkOrder" recordSetVar="workOrders" extensions="PrintableView_WorkOrder_MultiController">
+    <apex:slds />
+    <apex:includeLightning />
+    <apex:includeScript value="https://code.jquery.com/jquery-2.2.0.min.js"/>
+    
+    <apex:form >
+        <div align="center" draggable="false">
+            <apex:commandButton styleClass="cButtons slds-button slds-button_neutral" value="Expand/Collapse" reRender="dummy" onclick="expandCollapse();" rendered="true"/>   
+            <apex:commandButton styleClass="cButtons slds-button slds-button_neutral" value="Print"  onclick="selectivePrint();" rendered="true" />
+            <apex:repeat value="{!selected}" var="workOrder">
+                <div>
+                    <iframe id="idIframe{!workOrder.Id}" height="100px" width="720px" src="/apex/PrintableView_WorkOrder_Single?id={!workOrder.Id}" style="border:none;" />
+                </div>
+            </apex:repeat>
+        </div>
+    </apex:form>
+  
+  
+  <script>
+        function selectivePrint(){
+            var recordList = '{!selected}';
+            recordList = recordList.replace('[','').replace(']','').replace(' ','').split(',');
+            
+            $('.cButtons').hide();
+            // var wasExpanded = false;
+            
+            for (var record in recordList){
+                var recordId = recordList[record];
+                var iFrameID = document.getElementById('idIframe'+recordId);
+                // if (iFrameID.height != '100px'){
+                //     wasExpanded = true;
+                // }
+                expandIFrame(recordId);
+            }
+            
+            window.print();
+            
+            $('.cButtons').show();
+            
+            // if (!wasExpanded){
+            //     for (var record in recordList){
+            //         var recordId = recordList[record];
+            //         collapseIFrame(recordId);
+            //     }
+            // }
+            
+            
+        }
+        
+        function expandCollapse(){
+            var recordList = '{!selected}';
+            recordList = recordList.replace('[','').replace(']','').replace(' ','').split(',');
+            
+            var wasExpanded = false;
+            
+            for (var record in recordList){
+                var recordId = recordList[record];
+                var iFrameID = document.getElementById('idIframe'+recordId);
+                if (iFrameID.height != '100px'){
+                    wasExpanded = true;
+                }
+            }
+            
+            if (wasExpanded){
+                for (var record in recordList){
+                    var recordId = recordList[record];
+                    collapseIFrame(recordId);
+                }
+            }else{
+                for (var record in recordList){
+                    var recordId = recordList[record];
+                    expandIFrame(recordId);
+                }
+            }
+        }
+            
+        function expandIFrame(thisId) {
+            var iFrameID = document.getElementById('idIframe'+thisId);
+            
+            if(iFrameID) {
+                iFrameID.height = "";
+                iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
+            }   
+        }
+        
+        function collapseIFrame(thisId) {
+            var iFrameID = document.getElementById('idIframe'+thisId);
+            
+            if(iFrameID) {
+                iFrameID.height = "";
+                iFrameID.height = "100px";
+            }   
+        }
+          
+        
+    </script>
+</apex:page>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>PrintableView_WorkOrder_MultiController</members>
+        <members>PrintableView_WorkOrder_SingleController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>PrintableView_WorkOrder_Multi</members>
+        <members>PrintableView_WorkOrder_Single</members>
+        <members>PrintableView_WorkOrder_Single_Page</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>PrintableView_WorkOrder_Single</members>
+        <members>PrintableView_WorkOrder_Single_App</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <version>36.0</version>
+</Package>
