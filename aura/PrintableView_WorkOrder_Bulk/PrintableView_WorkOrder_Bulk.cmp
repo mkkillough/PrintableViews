@@ -1,0 +1,15 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName" controller="PrintableView_WorkOrder_BulkController">
+    <aura:attribute name="sObjectName" type="string" default="WorkOrder" />
+    <aura:attribute name="returnedMap" type="Map"/>
+    <aura:attribute name="keyList" type="List"/>
+    
+    <aura:attribute name="selected" type="list"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <aura:if isTrue="{!v.returnedMap}">
+        <aura:iteration items="{!v.keyList}" var="key" >
+            <c:PrintableView_WorkOrder_Bulk_Child returnedMap="{!v.returnedMap}" key="{!key}"/>
+        </aura:iteration>
+    </aura:if>
+</aura:component>
