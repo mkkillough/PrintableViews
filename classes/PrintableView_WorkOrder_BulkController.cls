@@ -1,4 +1,21 @@
 public class PrintableView_WorkOrder_BulkController {
+    private ApexPages.StandardSetController standardSetController;
+    public string woIdStr{get;set;}
+    public string[] woIds{get;set;}
+    
+    public PrintableView_WorkOrder_BulkController(ApexPages.StandardSetController standardSetController)
+    {
+        this.standardSetController = standardSetController;
+        List<WorkOrder> selectedListViewRecords = (List<WorkOrder>) standardSetController.getSelected();
+        
+        woIds = new list<string>();
+        for(WorkOrder wo : selectedListViewRecords){
+             woIds.add(wo.Id);
+        }
+        woIdStr= woIds.size()>0 ? String.join(woIds, ',') : '';
+        
+    }
+    
     @auraEnabled 
     public static map<String,map<String,String>>doInit(list<Id> workOrderIds){
         system.debug('## we made it');

@@ -1,6 +1,7 @@
 ({
 	init : function(component, event, helper) {
 	    var ids = component.get("v.selected");
+	    console.log('##ids: '+ids);
 	    //ids.push(component.get("v.recordId"));
 	    var getStuffAction = component.get('c.doInit');
         getStuffAction.setParams({
