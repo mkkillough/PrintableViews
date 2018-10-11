@@ -1,6 +1,5 @@
-<apex:page standardController="WorkOrder" recordSetVar="wo" showheader="false" sidebar="false" extensions="PrintableView_WorkOrder_BulkController" >
-    <!--<BODY onLoad="setTimeout(init, 3000)"/>-->
-    
+<apex:page standardController="WorkOrder" recordSetVar="wo" showheader="false" sidebar="false" extensions="PrintableView_WorkOrder_BulkController">
+
     <style type="text/css">
         .headerstyle { 
             /*text-align:justify;  */
@@ -21,32 +20,16 @@
     
     <html>
         <head>
-            <!--<div styleClass="slds-grid slds-wrap">-->
-            
-                
-                
-            <!--</div>-->
+           
         </head>
         
         <body>
             <apex:form >
-                <!--<apex:commandButton value="A Button"  styleClass="slds-button slds-button_neutral"/>-->
-                
+
                 <div align="center" draggable="false" >
-                    <!--<br/>-->
                     <apex:commandButton styleClass="cButtons slds-button slds-button_neutral" value="Print" reRender="dummy" onclick="selectiveprint();" rendered="true"/>
                     <apex:commandButton styleClass="cButtons slds-button slds-button_neutral" value="Return" reRender="dummy" onclick="navigateBackward()" rendered="true"/>
-                    <!--<br/>-->
                 </div>
-                <!--<table>-->
-                    <!--logo left-->
-                    <!--<td><apex:image id="jciLogo" value="{!$Resource.johnson_controls_logo}" width="400" height="100" alt="JCI"/></td>-->
-                    <!--<td><br/><apex:outputText styleClass="headerstyle" style="text-align: left;" value="{!WorkOrder.Work_Order_Name__c}"/></td>-->
-                    <!--logo right-->
-                    <!--<td><br/><apex:outputText styleClass="headerstyle" value="{!WorkOrder.Work_Order_Name__c}"/></td>-->
-                    <!--<td><apex:image id="jciLogo" value="{!$Resource.johnson_controls_logo}" width="400" height="100" alt="JCI"/></td>-->
-                <!--</table>-->
-                <!--<br/>-->
         
                 <div id="lightning" />
                 
@@ -58,15 +41,13 @@
                 </div>
             </apex:form>
         </body>
-        
+
     </html>
     
     
     <script>
-        // var recordList = '{!selected}';
         var recordList = '{!woIdStr}';
         recordList = recordList.replace('[','').replace(']','').replace(' ','').split(',');
-        // var recordId = '{!WorkOrder.Id}';
         var myUserContext = "{!$User.UITheme}";
         var objName = "WorkOrder";
         $Lightning.use("c:PrintableView_WorkOrder_Bulk_App", function() {
@@ -84,8 +65,8 @@
         
         function selectiveprint(){ 
             $('.cButtons').hide();
-        window.print();
-         $('.cButtons').show();
+                window.print();
+            $('.cButtons').show();
         }
         
         function navigateBackward() {

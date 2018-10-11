@@ -21,32 +21,20 @@
     
     <html>
         <head>
-            <!--<div styleClass="slds-grid slds-wrap">-->
             
-                
-                
-            <!--</div>-->
         </head>
         
         <body>
             <apex:form >
-                <!--<apex:commandButton value="A Button"  styleClass="slds-button slds-button_neutral"/>-->
-                
+
                 <div align="center" draggable="false" >
-                    <!--<br/>-->
                     <apex:commandButton styleClass="cButtons slds-button slds-button_neutral" value="Print" reRender="dummy" onclick="selectiveprint();" rendered="true"/>
-                    <!--<br/>-->
                 </div>
-                <table>
-                    <!--logo left-->
-                    <!--<td><apex:image id="jciLogo" value="{!$Resource.johnson_controls_logo}" width="400" height="100" alt="JCI"/></td>-->
-                    <!--<td><br/><apex:outputText styleClass="headerstyle" style="text-align: left;" value="{!WorkOrder.Work_Order_Name__c}"/></td>-->
-                    <!--logo right-->
-                    <td><br/><apex:outputText styleClass="headerstyle" value="{!WorkOrder.Work_Order_Name__c}"/></td>
-                    <td><apex:image id="jciLogo" value="{!$Resource.johnson_controls_logo}" width="400" height="100" alt="JCI"/></td>
-                </table>
-                <br/>
-        
+                <!--<table>-->
+                <!--    <td><br/><apex:outputText styleClass="headerstyle" value="{!WorkOrder.Work_Order_Name__c}"/></td>-->
+                <!--    <td><apex:image id="jciLogo" value="{!$Resource.johnson_controls_logo}" width="400" height="100" alt="JCI"/></td>-->
+                <!--</table>-->
+                <!--<br/>-->
                 <div id="lightning" />
                 
                 <div align="center" draggable="false" >
@@ -64,9 +52,23 @@
         var recordId = '{!WorkOrder.Id}';
         var myUserContext = "{!$User.UITheme}";
         var objName = "WorkOrder";
-        $Lightning.use("c:PrintableView_WorkOrder_Single_App", function() {
-            $Lightning.createComponent("c:PrintableView_WorkOrder_Single",
-               {recordId: recordId
+        // $Lightning.use("c:PrintableView_WorkOrder_Single_App", function() {
+        //     $Lightning.createComponent("c:PrintableView_WorkOrder_Single",
+        //       {recordId: recordId
+
+        //       },
+               
+        //       "lightning",
+        //       function(cmp) {
+                
+        //       }
+        //     );
+        // });
+        var recordList = [];
+        recordList.push(recordId);
+        $Lightning.use("c:PrintableView_WorkOrder_Bulk_App", function() {
+            $Lightning.createComponent("c:PrintableView_WorkOrder_Bulk",
+               {selected: recordList
 
                },
                
@@ -76,10 +78,11 @@
                }
             );
         });
+        
         function selectiveprint(){ 
             $('.cButtons').hide();
-        window.print();
-         $('.cButtons').show();
+                window.print();
+            $('.cButtons').show();
         }
     </script>
 

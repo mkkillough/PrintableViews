@@ -18,11 +18,8 @@ public class PrintableView_WorkOrder_BulkController {
     
     @auraEnabled 
     public static map<String,map<String,String>>doInit(list<Id> workOrderIds){
-        system.debug('## we made it');
-        // WorkOrder thisWorkOrder = [select AssetId, MaintenancePlanId, SuggestedMaintenanceDate from WorkOrder where Id =: workOrderId];
-        // String previousWorkOrderId = [select Id from WorkOrder where MaintenancePlanId =: thisWorkOrder.MaintenancePlanId and SuggestedMaintenanceDate <=: thisWorkOrder.SuggestedMaintenanceDate and Id !=: workOrderId Order By SuggestedMaintenanceDate desc limit 1].Id;
-       
-        list<WorkOrder> theseWorkOrders = [select AssetId, MaintenancePlanId, SuggestedMaintenanceDate, Work_Order_Name__c from WorkOrder where Id =: workOrderIds];
+      
+        list<WorkOrder> theseWorkOrders = [select AssetId, MaintenancePlanId, SuggestedMaintenanceDate, Work_Order_Name__c,WorkOrderNumber from WorkOrder where Id =: workOrderIds];
         
         Date latestSuggestedMaintenanceDate = system.today().addDays(-3560);
         set<Id> maintenancePlanIds = new set<Id>();
@@ -51,6 +48,9 @@ public class PrintableView_WorkOrder_BulkController {
             }
             if(thisWorkOrder.SuggestedMaintenanceDate != null){
                 labelToValueMap.put('thisWorkOrderSuggestedMaintenanceDate',String.valueOf(thisWorkOrder.SuggestedMaintenanceDate));
+            }
+            if (thisWorkOrder.WorkOrderNumber != null){
+                labelToValueMap.put('workOrderNumber',thisWorkOrder.WorkOrderNumber);
             }
             for (WorkOrder previousWorkOrder : previousWorkOrders){
                 if (previousWorkOrder.MaintenancePlanId == thisWorkOrder.MaintenancePlanId && previousWorkOrder.SuggestedMaintenanceDate < thisWorkOrder.SuggestedMaintenanceDate){
